@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<list>
+    <person id="1">
+        <name>williamyi</name>
+        <age>18</age>
+        <gender>男</gender>
+    </person>
+    <person id="2">
+        <name>lay</name>
+        <age>19</age>
+        <gender>男</gender>
+    </person>
+    <person id="3">
+        <name>周洛兮</name>
+        <age>20</age>
+        <gender>女</gender>
+    </person>
+</list>
