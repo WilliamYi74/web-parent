@@ -1,9 +1,9 @@
 /**
  * @projectName web-parent
  * @package com.williamyi.xml.code_01
- * @className com.williamyi.xml.code_01.Student
+ * @className com.william.domain.Student
  */
-package com.williamyi.xml.code_01;
+package com.william.domain;
 
 import lombok.Data;
 

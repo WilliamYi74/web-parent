@@ -7,11 +7,13 @@
     <version>1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
-    <name>Maven</name>
+    <name>web-parent</name>
     <url>http://maven.apache.org/</url>
     <inceptionYear>2001</inceptionYear>
     <modules>
         <module>code-xml</module>
+        <module>web-pojo</module>
+        <module>web-server</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -53,15 +55,25 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
-
     <build>
-        <plugins>
-            <plugin>
-                <artifactId>maven-site-plugin</artifactId>
-                <configuration>
-                    <locales>en,fr,cn</locales>
-                </configuration>
-            </plugin>
-        </plugins>
+        <resources>
+            <resource>
+                <directory>${basedir}/src/main/resources</directory>
+                <filtering>true</filtering>
+                <includes>
+                    <include>**/application*.yml</include>
+                    <include>**/application*.yaml</include>
+                    <include>**/application*.properties</include>
+                </includes>
+            </resource>
+            <resource>
+                <directory>${basedir}/src/main/resources</directory>
+                <excludes>
+                    <exclude>**/application*.yml</exclude>
+                    <exclude>**/application*.yaml</exclude>
+                    <exclude>**/application*.properties</exclude>
+                </excludes>
+            </resource>
+        </resources>
     </build>
 </project>

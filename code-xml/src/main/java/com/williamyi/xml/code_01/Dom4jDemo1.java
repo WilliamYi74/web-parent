@@ -5,16 +5,15 @@
  */
 package com.williamyi.xml.code_01;
 
-import com.williamyi.xml.utils.XmlWriter;
+import com.william.domain.Person;
+import com.william.domain.Student;
+import com.william.utils.XmlWriter;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
 
 import java.io.*;
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 

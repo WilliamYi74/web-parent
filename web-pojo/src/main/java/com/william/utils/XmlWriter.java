@@ -3,7 +3,7 @@
  * @package com.williamyi.xml.utils
  * @className com.williamyi.xml.utils.XmlManager
  */
-package com.williamyi.xml.utils;
+package com.william.utils;
 
 import java.io.*;
 import java.lang.reflect.Field;
