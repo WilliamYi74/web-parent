@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+
+
+    <springProperty scope="context" name="APP_NAME" source="spring.application.name"/>
+    <springProperty scope="context" name="LOG_PATH" source="log.path"/>
+
+    <!--debug级别的文件appender-->
+    <appender name="FILE_DEBUG"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!--日志文件名 正在写入的文件-->
+        <file>${LOG_PATH}/${APP_NAME}/debug/debug.log</file>
+        <!--默认是新建 显式指定追加模式 否则重启就没了-->
+        <append>true</append>
+        <!--级别过滤器-->
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <!--要设置的级别 这里为对DEBUG过滤-->
+            <level>DEBUG</level>
+            <!--如果匹配到DEBUG 放行-->
+            <onMatch>ACCEPT</onMatch>
+            <!--如果没匹配到DEBUG 丢弃-->
+            <onMismatch>DENY</onMismatch>
+        </filter>
+        <encoder>
+            <!--日志输出格式-->
+            <pattern>%d{yyyy-MM-dd HH:mm:ss} %-4relative [%thread] %-5level %logger{35} - %msg %n</pattern>
+            <!--日志输出编码-->
+            <charset>utf8</charset>
+        </encoder>
+        <!--滚动日志策略-->
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <!--存档的旧日志文件名-->
+            <fileNamePattern>${LOG_PATH}/${APP_NAME}/debug/debug.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <!--只保存最近七天-->
+            <maxHistory>7</maxHistory>
+            <!--单个日志文件最大50M 到50M则新建一个-->
+            <maxFileSize>50MB</maxFileSize>
+            <!--所有日志文件的总大小 超出时旧的日志文件会被异步删除 这个标签需要配合maxHistory一起使用且为第二条件-->
+            <totalSizeCap>2GB</totalSizeCap>
+        </rollingPolicy>
+    </appender>
+    <!--info级别的文件appender-->
+    <appender name="FILE_INFO"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!--日志文件名 正在写入的文件-->
+        <file>${LOG_PATH}/${APP_NAME}/info/info.log</file>
+        <!--默认是新建 显式指定追加模式 否则重启就没了-->
+        <append>true</append>
+        <!--级别过滤器-->
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <!--要设置的级别 这里为对INFO过滤-->
+            <level>INFO</level>
+            <!--如果匹配到DEBUG 放行-->
+            <onMatch>ACCEPT</onMatch>
+            <!--如果没匹配到DEBUG 丢弃-->
+            <onMismatch>DENY</onMismatch>
+        </filter>
+        <encoder>
+            <!--日志输出格式-->
+            <pattern>%d{yyyy-MM-dd HH:mm:ss} %-4relative [%thread] %-5level %logger{35} - %msg %n</pattern>
+            <!--日志输出编码-->
+            <charset>utf8</charset>
+        </encoder>
+        <!--滚动日志策略-->
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <!--存档的旧日志文件名-->
+            <fileNamePattern>${LOG_PATH}/${APP_NAME}/info/info.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <!--只保存最近七天-->
+            <maxHistory>7</maxHistory>
+            <!--单个日志文件最大50M 到50M则新建一个-->
+            <maxFileSize>1MB</maxFileSize>
+            <!--所有日志文件的总大小 超出时旧的日志文件会被异步删除 这个标签需要配合maxHistory一起使用且为第二条件-->
+            <totalSizeCap>2GB</totalSizeCap>
+        </rollingPolicy>
+    </appender>
+    <!--warn级别的文件appender-->
+    <appender name="FILE_WARN"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!--日志文件名 正在写入的文件-->
+        <file>${LOG_PATH}/${APP_NAME}/warn/warn.log</file>
+        <!--默认是新建 显式指定追加模式 否则重启就没了-->
+        <append>true</append>
+        <!--级别过滤器-->
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <!--要设置的级别 这里为对WARN过滤-->
+            <level>WARN</level>
+            <!--如果匹配到DEBUG 放行-->
+            <onMatch>ACCEPT</onMatch>
+            <!--如果没匹配到DEBUG 丢弃-->
+            <onMismatch>DENY</onMismatch>
+        </filter>
+        <encoder>
+            <!--日志输出格式-->
+            <pattern>%d{yyyy-MM-dd HH:mm:ss} %-4relative [%thread] %-5level %logger{35} - %msg %n</pattern>
+            <!--日志输出编码-->
+            <charset>utf8</charset>
+        </encoder>
+        <!--滚动日志策略-->
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <!--存档的旧日志文件名-->
+            <fileNamePattern>${LOG_PATH}/${APP_NAME}/warn/warn.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <!--只保存最近七天-->
+            <maxHistory>7</maxHistory>
+            <!--单个日志文件最大50M 到50M则新建一个-->
+            <maxFileSize>50MB</maxFileSize>
+            <!--所有日志文件的总大小 超出时旧的日志文件会被异步删除 这个标签需要配合maxHistory一起使用且为第二条件-->
+            <totalSizeCap>2GB</totalSizeCap>
+        </rollingPolicy>
+    </appender>
+    <!--error级别的文件appender-->
+    <appender name="FILE_ERROR"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!--日志文件名 正在写入的文件-->
+        <file>${LOG_PATH}/${APP_NAME}/error/error.log</file>
+        <!--默认是新建 显式指定追加模式 否则重启就没了-->
+        <append>true</append>
+        <!--级别过滤器-->
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <!--要设置的级别 这里为对ERROR过滤-->
+            <level>ERROR</level>
+            <!--如果匹配到DEBUG 放行-->
+            <onMatch>ACCEPT</onMatch>
+            <!--如果没匹配到DEBUG 丢弃-->
+            <onMismatch>DENY</onMismatch>
+        </filter>
+        <encoder>
+            <!--日志输出格式-->
+            <pattern>%d{yyyy-MM-dd HH:mm:ss} %-4relative [%thread] %-5level %logger{35} - %msg %n</pattern>
+            <!--日志输出编码-->
+            <charset>utf8</charset>
+        </encoder>
+        <!--滚动日志策略-->
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <!--存档的旧日志文件名-->
+            <fileNamePattern>${LOG_PATH}/${APP_NAME}/error/error.%d{yyyy-MM-dd HH:mm:ss:SSS}.%i.log</fileNamePattern>
+            <!--只保存最近七天-->
+            <maxHistory>7</maxHistory>
+            <!--单个日志文件最大50M 到50M则新建一个-->
+            <maxFileSize>50MB</maxFileSize>
+            <!--所有日志文件的总大小 超出时旧的日志文件会被异步删除 这个标签需要配合maxHistory一起使用且为第二条件-->
+            <totalSizeCap>2GB</totalSizeCap>
+        </rollingPolicy>
+    </appender>
+
+    <!--控制台日志appender-->
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <!--日志输出格式-->
+            <pattern>%d{yyyy-MM-dd HH:mm:ss} %-4relative [%thread] %-5level %logger{35} - %msg %n</pattern>
+            <!--日志输出编码-->
+            <charset>utf8</charset>
+        </encoder>
+    </appender>
+
+    <!--日志生效等级 root的level: 只输出level及以上等级 TRACE < DEBUG < INFO < WARN < ERROR-->
+    <root level="DEBUG">
+        <appender-ref ref="CONSOLE"/>
+        <appender-ref ref="FILE_DEBUG"/>
+        <appender-ref ref="FILE_INFO"/>
+        <appender-ref ref="FILE_WARN"/>
+        <appender-ref ref="FILE_ERROR"/>
+    </root>
+</configuration>
