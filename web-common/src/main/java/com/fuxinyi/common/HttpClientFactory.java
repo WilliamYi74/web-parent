@@ -6,6 +6,7 @@
 package com.fuxinyi.common;
 
 import org.apache.hc.client5.http.HttpRequestRetryStrategy;
+import org.apache.hc.client5.http.classic.HttpClient;
 import org.apache.hc.client5.http.config.ConnectionConfig;
 import org.apache.hc.client5.http.config.RequestConfig;
 import org.apache.hc.client5.http.impl.DefaultHttpRequestRetryStrategy;
@@ -23,8 +24,10 @@ import org.apache.hc.client5.http.impl.io.PoolingHttpClientConnectionManager;
  * @date 2025/8/17 10:43
  */
 public class HttpClientFactory {
+    private static volatile CloseableHttpClient httpClient;
 
     public static CloseableHttpClient create(Config config) {
+        // 构建连接池
         PoolingHttpClientConnectionManager connectionManager = new PoolingHttpClientConnectionManager();
         connectionManager.setMaxTotal(config.getMaxTotal());
         connectionManager.setDefaultMaxPerRoute(config.getDefaultMaxPerRoute());
@@ -34,6 +37,7 @@ public class HttpClientFactory {
                 .setTimeToLive(config.getTimeToLive())
                 .setValidateAfterInactivity(config.getValidateAfterInactivity())
                 .build());
+        // 构建请求配置
         RequestConfig requestConfig = RequestConfig.custom()
                 .setConnectionRequestTimeout(config.getConnectionRequestTimeout())
                 .build();
@@ -41,11 +45,13 @@ public class HttpClientFactory {
         builder.setConnectionManager(connectionManager);
         builder.setDefaultRequestConfig(requestConfig);
         if (config.getMaxRetries() < 1) {
+            // 重试策略
             HttpRequestRetryStrategy retryStrategy = new DefaultHttpRequestRetryStrategy(
                     config.getMaxRetries(),
                     config.getDefaultRetryInterval());
             builder.setRetryStrategy(retryStrategy);
         }
+        // 是否禁用cookie
         if (config.isDisableCookieManagement()) {
             builder.disableCookieManagement();
         }
@@ -53,6 +59,13 @@ public class HttpClientFactory {
     }
 
     public static CloseableHttpClient createDefault() {
-        return create(Config.defaultConfig());
+        if (httpClient == null) {
+            synchronized (HttpClientFactory.class) {
+                if (httpClient == null) {
+                    httpClient = create(Config.defaultConfig());
+                }
+            }
+        }
+        return httpClient;
     }
 }

@@ -4,8 +4,6 @@ import lombok.Data;
 import org.apache.hc.core5.util.TimeValue;
 import org.apache.hc.core5.util.Timeout;
 
-import java.util.stream.Stream;
-
 @Data
 public class Config {
 

@@ -23,6 +23,6 @@ public class HttpClientConfig {
 
     @Bean
     public CloseableHttpClient httpClient() {
-        return HttpClientFactory.create(Config.defaultConfig());
+        return HttpClientFactory.createDefault();
     }
 }
