@@ -5,7 +5,13 @@
  */
 package com.williamyi;
 
+import com.alibaba.excel.EasyExcel;
+import com.alibaba.excel.write.metadata.style.WriteCellStyle;
+import com.alibaba.excel.write.style.HorizontalCellStyleStrategy;
+import com.alibaba.excel.write.style.column.LongestMatchColumnWidthStyleStrategy;
 import com.williamyi.domain.Student;
+import org.apache.poi.ss.usermodel.HorizontalAlignment;
+import org.apache.poi.ss.usermodel.VerticalAlignment;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -36,7 +42,7 @@ public class POITest {
             stu.setId(i + 1);
             stu.setUserName("williamyi小宝贝哈哈哈哈" + i);
             stu.setAge(i + 2);
-            stu.setGender(i & 1);
+            stu.setGenderName((i & 1) == 1 ? "男" : "女");
             stu.setPhone("123456" + i);
             stu.setSchool("深圳大学");
             studentList.add(stu);
@@ -108,5 +114,17 @@ public class POITest {
             studentList.add(student);
         }
         studentList.forEach(System.out::println);
+    }
+
+    @Test
+    void easyExcelWrite() {
+        WriteCellStyle contentCellStyle = new WriteCellStyle();
+        contentCellStyle.setHorizontalAlignment(HorizontalAlignment.CENTER);
+        contentCellStyle.setVerticalAlignment(VerticalAlignment.CENTER);
+        EasyExcel.write("/Users/suk/Documents/java-workspace/web-parent/学生薄.xlsx", Student.class)
+                .registerWriteHandler(new HorizontalCellStyleStrategy(null, contentCellStyle))
+                .registerWriteHandler(new LongestMatchColumnWidthStyleStrategy())
+                .sheet("第一个sheet")
+                .doWrite(studentList);
     }
 }
