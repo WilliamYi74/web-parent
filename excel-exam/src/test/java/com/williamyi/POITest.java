@@ -16,6 +16,7 @@ import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.io.FileOutputStream;
@@ -32,10 +33,13 @@ import java.util.List;
  */
 public class POITest {
 
+    private static String userDir;
+
     private List<Student> studentList;
 
     @BeforeEach
     public void init() {
+        userDir = System.getProperty("user.dir");
         studentList = new ArrayList<>();
         for (int i = 0; i < 10; i++) {
             Student stu = new Student();
@@ -54,6 +58,7 @@ public class POITest {
      *
      * @throws IOException
      */
+    @DisplayName("POI写入excel")
     @Test
     void poiWriteFile() throws IOException {
         // 在内存中创建一个.xlsx 工作簿
@@ -83,17 +88,20 @@ public class POITest {
             // 设置列尺寸自动适应
             sheet1.autoSizeColumn(1);
         }
-        sheets.write(new FileOutputStream("/Users/suk/Documents/java-workspace/web-parent/学生薄.xlsx"));
+        sheets.write(new FileOutputStream(getFilePath()));
     }
-
+    String getFilePath(){
+        return String.format("%s/%s", userDir, "学生薄.xlsx");
+    }
     /**
      * 读取一个工作簿
      * @throws IOException
      */
+    @DisplayName("POI读取excel")
     @Test
     void poiReadFile() throws IOException {
         // 获取工作簿的对象
-        XSSFWorkbook sheets = new XSSFWorkbook("/Users/suk/Documents/java-workspace/web-parent/学生薄.xlsx");
+        XSSFWorkbook sheets = new XSSFWorkbook(getFilePath());
         // 获取第一个sheet标签页
         XSSFSheet sheet1 = sheets.getSheetAt(0);
         List<Student> studentList = new ArrayList<>();
@@ -106,22 +114,24 @@ public class POITest {
             if (row == null) continue;
             int id = (int) row.getCell(0).getNumericCellValue(); // 返回的是一个double
             String userName = row.getCell(1).getStringCellValue();
-            int age = (int) row.getCell(2).getNumericCellValue();
-            int gender = (int) row.getCell(3).getNumericCellValue();
+            String genderName = row.getCell(2).getStringCellValue();
+            int age = (int) row.getCell(3).getNumericCellValue();
             String school = row.getCell(4).getStringCellValue();
             String phone = row.getCell(5).getStringCellValue();
-            Student student = new Student(id, userName, age, gender, school, phone);
+            Student student = new Student(id, userName, genderName, age, school, phone);
+            student.setGender(genderName.equals("男")?1:0);
             studentList.add(student);
         }
         studentList.forEach(System.out::println);
     }
 
+    @DisplayName("easyexcel写入excel")
     @Test
     void easyExcelWrite() {
         WriteCellStyle contentCellStyle = new WriteCellStyle();
         contentCellStyle.setHorizontalAlignment(HorizontalAlignment.CENTER);
         contentCellStyle.setVerticalAlignment(VerticalAlignment.CENTER);
-        EasyExcel.write("/Users/suk/Documents/java-workspace/web-parent/学生薄.xlsx", Student.class)
+        EasyExcel.write(getFilePath(), Student.class)
                 .registerWriteHandler(new HorizontalCellStyleStrategy(null, contentCellStyle))
                 .registerWriteHandler(new LongestMatchColumnWidthStyleStrategy())
                 .sheet("第一个sheet")

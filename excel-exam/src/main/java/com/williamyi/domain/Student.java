@@ -50,10 +50,10 @@ public class Student {
     public Student() {
     }
 
-    public Student(Integer id, String userName, Integer gender, Integer age, String school, String phone) {
+    public Student(Integer id, String userName, String genderName, Integer age, String school, String phone) {
         this.id = id;
         this.userName = userName;
-        this.gender = gender;
+        this.genderName = genderName;
         this.age = age;
         this.school = school;
         this.phone = phone;
